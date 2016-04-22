@@ -99,7 +99,7 @@ function getAvgHits($create_date, $last_call, $counter) {
          for ($i = 0, $n = count($this->items); $i < $n; $i++) {
             $row = &$this->items[$i];
             $checked = JHTML::_('grid.id', $i, $row->id);
-            $editlink = JRoute::_('index.php?option=com_shortlink&controller=shortlink&task=edit&cid[]=' . $row->id);
+            $editlink = JRoute::_('index.php?option=com_shortlink&task=shortlink.edit&cid[]=' . $row->id);
             ?>
             <tr class="<?php echo "row$k"; ?>">
                <td>

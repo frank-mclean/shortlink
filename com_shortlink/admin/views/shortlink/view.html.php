@@ -3,11 +3,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
-class ShortlinksViewShortlink extends JView {
+class ShortlinkViewShortlink extends JViewLegacy {
    function display($tpl = null) {
-      $default_path = JPATH_SITE . DS . 'goto.php';
+      $default_path = JPATH_SITE . DIRECTORY_SEPARATOR . 'goto.php';
 
       $params = &JComponentHelper::getParams('com_shortlink');
 
@@ -40,7 +38,7 @@ class ShortlinksViewShortlink extends JView {
 
       $text = $isNew ? JText::_('New') : JText::_('Edit');
       JToolBarHelper::title(JText::_('Shortlink') . ': <small><small>[ ' . $text . ' ]</small></small>');
-      JToolBarHelper::save();
+      JToolBarHelper::save('shortlink.save');
       if ($isNew) {
          JToolBarHelper::cancel();
       } else {

@@ -3,14 +3,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.model');
-
-class ShortlinkModelShortlink extends JModel {
+class ShortlinkModelShortlink extends JModelLegacy {
    function getShortlink($phrase) {
-      $db =& JFactory::getDBO();
+      $db = $this->getDbo();
 
       $query = 'SELECT * FROM #__shortlink';
-      $query .= ' WHERE phrase = ' . $db->quote($db->getEscaped($phrase), false);
+      $query .= ' WHERE phrase = ' . $db->quote($db->escape($phrase), false);
 
       $db->setQuery($query);
       $shortlink = $db->loadObject();
@@ -20,7 +18,7 @@ class ShortlinkModelShortlink extends JModel {
          $now =& JFactory::getDate();
 
          $shortlink->counter++;
-         $shortlink->last_call = $now->toMySQL();
+         $shortlink->last_call = $now->toSql();
          $db->updateObject('#__shortlink', $shortlink, 'id', true);
       }
 
@@ -28,17 +26,16 @@ class ShortlinkModelShortlink extends JModel {
    }
 
    function getArticleUrl($artid) {
-      $db =& JFactory::getDBO();
+      $db =$this->getDbo();
       $mainframe = &JFactory::getApplication();
 
       if (!class_exists('ContentHelperRoute')) {
-         require_once(JPATH_SITE . DS . 'components' . DS . 'com_content' . DS . 'helpers' . DS . 'route.php');
+         require_once(JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
       }
 
-      $query = "SELECT a.id, a.title AS arttitle, a.alias AS artalias, c.id as catid, c.alias AS catalias, a.sectionid";
+      $query = "SELECT a.id, a.title AS arttitle, a.alias AS artalias, c.id as catid, c.alias AS catalias";
       $query .= " FROM #__content AS a ";
       $query .= " LEFT JOIN #__categories AS c ON a.catid = c.id ";
-      $query .= " LEFT JOIN #__sections AS s ON a.sectionid = s.id ";
       $query .= " WHERE a.state=1 ";
       $query .= " AND a.id=" . (int)$artid;
 
@@ -48,11 +45,11 @@ class ShortlinkModelShortlink extends JModel {
       $result = null;
 
       if ($article) {
-         if (empty($article->catid) || empty($article->catalias) || empty($article->sectionid)) {
+         if (empty($article->catid) || empty($article->catalias)) {
             $result = ContentHelperRoute::getArticleRoute($article->id . ':' . $article->artalias);
          }
          else {
-            $result = ContentHelperRoute::getArticleRoute($article->id . ':' . $article->artalias, $article->catid . ':' . $article->catalias, $article->sectionid);
+            $result = ContentHelperRoute::getArticleRoute($article->id . ':' . $article->artalias, $article->catid . ':' . $article->catalias);
          }
 
          if (strpos($result, '&Itemid=') < 0) {

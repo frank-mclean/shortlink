@@ -3,22 +3,15 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-jimport('joomla.html.pagination');
+class ShortlinkViewShortlinks extends JViewLegacy {
+	
+	// Display the view
+	public function display($tpl = null) {
 
-class ShortlinksViewShortlinks extends JView {
-   function display($tpl = null) {
-      JToolBarHelper::title(JText::_('SHORTLINKS_MANAGER'), 'generic.png');
-      JToolBarHelper::deleteList();
-      JToolBarHelper::editListX();
-      JToolBarHelper::addNewX();
-      JToolBarHelper::preferences('com_shortlink', '350');
-      JToolBarHelper::help('screen.shortlink', true); // TODO
-
-      $document = &JFactory::getDocument();
+      $document = JFactory::getDocument();
       $document->addScript(JURI::root(true) . '/administrator/components/com_shortlink/assets/helper.js');
 
-      $model = &$this->getModel();
+      $model = $this->getModel();
 
       // get options from request
       $options = $this->getOptions();
@@ -39,9 +32,21 @@ class ShortlinksViewShortlinks extends JView {
       $this->assignRef('pageNav', $pageNav);
       $this->assignRef('lastCallSel', $lastCallSelections);
 
+	  $this->addToolbar();
+	  
       parent::display($tpl);
    }
 
+	protected function addToolbar()
+	{
+		JToolBarHelper::title(JText::_('SHORTLINKS_MANAGER'), 'generic.png');
+		JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'shortlinks.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::editList('shortlink.edit');
+		JToolBarHelper::addNew('shortlink.add');
+		JToolBarHelper::preferences('com_shortlink', '350');
+		JToolBarHelper::help('screen.shortlink', true); // TODO - but not by me (FM)
+	}
+	
    function getLastCallSelections($counters, $options) {
       $javascript = 'onchange="document.adminForm.submit();"';
       $active = $options['last_call'];
@@ -73,7 +78,7 @@ class ShortlinksViewShortlinks extends JView {
    function getOptions() {
       $mainframe = JFactory::getApplication();
 
-      $params = &JComponentHelper::getParams('com_shortlink');
+      $params = JComponentHelper::getParams('com_shortlink');
       $context = 'com_shortlink.shortlinks.list.';
       $filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', $params->def('filter_order', 'id'), 'cmd');
       $filter_order_dir = $mainframe->getUserStateFromRequest($context . 'filter_order_dir', 'filter_order_Dir', $params->def('filter_dir', 'asc'), 'word');

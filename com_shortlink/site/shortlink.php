@@ -1,23 +1,15 @@
 <?php
 
-// No direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Require the base controller
-require_once (JPATH_COMPONENT.DS.'controllers'.DS.'base.php');
-
-// Require specific controller if requested
-$controller = JRequest::getCmd( 'controller', 'base' );
-require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-
-// Create the controller
-$classname	= 'ShortlinkController'.$controller;
-$controller = new $classname( );
-
+// No direct access to this file
+defined('_JEXEC') or die('Restricted access');
+ 
+// Get an instance of the controller prefixed by Shortlink
+$controller = JControllerLegacy::getInstance('Shortlink');
+ 
 // Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
-
+$input = JFactory::getApplication()->input;
+$controller->execute($input->getCmd('task'));
+ 
 // Redirect if set by the controller
 $controller->redirect();
-
 ?>

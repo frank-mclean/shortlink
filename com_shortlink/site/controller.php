@@ -1,8 +1,8 @@
 <?php
+// No direct access to this file
+defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
-class ShortlinkControllerBase extends JController
+class ShortlinkController extends JControllerLegacy
 {
 	/**
 	 * Method to display the view

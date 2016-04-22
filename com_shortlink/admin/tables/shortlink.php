@@ -55,7 +55,7 @@ class TableShortlink extends JTable {
       parent::__construct('#__shortlink', 'id', $db);
 
       $now =& JFactory::getDate();
-      $this->set('create_date', $now->toMySQL());
+      $this->set('create_date', $now->toSql());
    }
 
    function clicks() {
@@ -66,6 +66,6 @@ class TableShortlink extends JTable {
       $this->_db->query();
 
       $now =& JFactory::getDate();
-      $this->set('last_call', $now->toMySQL());
+      $this->set('last_call', $now->toSql());
    }
 }

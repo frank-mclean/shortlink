@@ -3,11 +3,9 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.model' );
+require_once(JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'filter.php');
 
-require_once(JPATH_COMPONENT . DS . 'models' . DS . 'filter.php');
-
-class ShortlinksModelShortlinks extends JModel
+class ShortlinkModelShortlinks extends JModelLegacy
 {
 	/**
 	 * Shortlinks data array

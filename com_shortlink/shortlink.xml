@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.6.0" method="upgrade" client="site">
+<extension type="component" version="3.5.1" method="upgrade">
    <name>Shortlink</name>
+   
+   <!-- The following elements are optional and free of formatting constraints -->
    <creationDate>2009-03-20</creationDate>
    <author>Tobias Gesellchen</author>
    <authorEmail>tobias@gesellix.de</authorEmail>
    <authorUrl>http://www.gesellix.de/</authorUrl>
    <copyright>(c) 2009-2012 Tobias Gesellchen</copyright>
    <license>GPL</license>
-   <version>3.0.0 2012-04-16 stable</version>
+   
+   <!-- The version string is recorded in the components table -->
+   <version>3.5.1 2016-04-20 fmclean</version>
+   
+	<!-- Optional -->
    <description>
       <![CDATA[
          Shortlink component for Joomla.<br />
          A short to long links translator.<br />
-         &copy; Tobias Gesellchen, <a href="http://www.gesellix.de/" target="_blank">www.gesellix.de</a>
+         &copy; Tobias Gesellchen, <a href="http://www.gesellix.de/" target="_blank">www.gesellix.de</a><br/>
+		 Forked for upgrade to Joomla 3.5.1 by Frank McLean, Apr 20, 2016
       ]]>
    </description>
 
+	<!-- Not sure at the moment... -->
    <config>
       <fields name="params">
          <fieldset name="config" label="config">
@@ -30,19 +38,29 @@
       </fields>
    </config>
 
+	<!-- Files/folders which reside in the site package directory - these will all be copied to the main components/com_shortlink directory on install -->
    <files folder="site">
+		<!-- Generic target for shortening URLs -->
       <filename>goto.php</filename>
+	  <!-- Controller -->
       <filename>shortlink.php</filename>
+      <filename>controller.php</filename>
+	  <!-- Guard file for directory browsing -->
       <filename>index.html</filename>
+		<!-- Models of data -->
       <folder>models</folder>
+	  <!-- Other controllers -->
       <folder>controllers</folder>
    </files>
 
-   <installfile>install.shortlink.php</installfile>
+	<!-- Not sure about these for 3.5.1 -->
+	<!-- <installfile>install.shortlink.php</installfile>
 
    <uninstallfile>uninstall.shortlink.php</uninstallfile>
+   -->
 
-   <install>
+	<!-- Or these, since I'll be working by hand -->
+   <!--<install>
       <sql>
          <file charset="utf8" driver="mysql">install.sql</file>
       </sql>
@@ -52,27 +70,41 @@
          <file charset="utf8" driver="mysql">uninstall.sql</file>
       </sql>
    </uninstall>
-
+	-->
+	
+	<!-- Section dealing with items to be placed under the administrator application -->
    <administration>
 
-      <menu>Shortlink</menu>
+		<!-- This might need a link attribute -->
+		<menu>Shortlink</menu>
 
+		<!-- Files/folders which reside in the 'admin' package directory - these will all be copied to the administrator/components/com_shortlink directpry on install -->
       <files folder="admin">
+		<!-- Controller -->
          <filename>shortlink.php</filename>
+		 <!-- Don't know -->
          <filename>config.xml</filename>
+		<!-- Guard against directory browse -->
          <filename>index.html</filename>
+		<!-- Not sure -->
          <filename>install.sql</filename>
          <filename>uninstall.sql</filename>
          <folder>assets</folder>
+		 <!-- Other controllers -->
          <folder>controllers</folder>
+		 <!-- Stuff... -->
          <folder>elements</folder>
          <folder>help</folder>
          <folder>language</folder>
+		 <!-- Models of data -->
          <folder>models</folder>
+		 <!-- Definitions of db tables -->
          <folder>tables</folder>
+		 <!-- Display views -->
          <folder>views</folder>
       </files>
 
+	  <!-- As on tin - looks like these get copied to the languages/'tag' sub-directory -->
       <languages folder="admin">
          <language tag="en-GB">language/en-GB/en-GB.com_shortlink.ini</language>
          <language tag="en-GB">language/en-GB/en-GB.com_shortlink.sys.ini</language>

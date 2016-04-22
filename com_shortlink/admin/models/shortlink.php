@@ -3,9 +3,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.model');
-
-class ShortlinksModelShortlink extends JModel
+class ShortlinkModelShortlink extends JModelLegacy
 {
 	/**
 	 * Constructor that retrieves the ID from the request
